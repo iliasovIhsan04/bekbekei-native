@@ -1,0 +1,146 @@
+import { StyleSheet } from "react-native";
+
+export const styles = StyleSheet.create({
+  container: {
+    width: "90%",
+    marginHorizontal: "auto",
+    maxWidth: 784,
+  },
+  texting: {
+    fontSize: 40,
+    color: "red",
+  },
+  header_block: {
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingTop: 10,
+    paddingBottom: 10,
+    backgroundColor: "#f8f8f8",
+    flexDirection: "row",
+  },
+  bonus_box: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    height: 170,
+    borderRadius: 16,
+    overflow: "hidden",
+    padding: 10,
+    marginBottom: 12,
+    marginTop: 30,
+    backgroundColor: "#F9671C",
+  },
+  inner_box: {
+    marginLeft: 10,
+  },
+  bonus_cart: {
+    color: "#fff",
+    fontSize: 24,
+    fontWeight: "700",
+    lineHeight: 24,
+  },
+  bonus_score: {
+    maxWidth: 160,
+    color: "#fff",
+    fontSize: 28,
+    fontWeight: "700",
+    lineHeight: 28,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    marginTop: 20,
+  },
+  bonus: {
+    fontSize: 18,
+    fontWeight: "600",
+    marginLeft: 5,
+  },
+  bonus_img: {
+    height: "100%",
+    borderRadius: 10,
+    image: {
+      maxWidth: 180,
+      height: "100%",
+      borderRadius: 10,
+    },
+  },
+  scanner_block: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    marginBottom: 30,
+  },
+  scanner_box1: {
+    width: "48%",
+    height: 58,
+    borderRadius: 10,
+    cursor: "pointer",
+    overflow: "hidden",
+  },
+  scanner: {
+    width: "48%",
+    height: 58,
+    backgroundColor: "rgb(245, 247, 250)",
+    borderRadius: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
+  },
+  scanner_score: {
+    fontSize: 16,
+    fontWeight: 400,
+    color: "rgb(25, 25, 25)",
+    marginLeft: 10,
+  },
+  alma_go_img: {
+    width: "100%",
+    height: "100%",
+  },
+  title_box: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  title_page: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: "#191919",
+  },
+  click_text: {
+    fontSize: 16,
+    fontWeight: "400",
+    color: "#191919",
+  },
+  back_button: {
+    position: "relative",
+    marginRight: 20,
+  },
+  more_left: {
+    position: "absolute",
+    width: 24,
+    height: 24,
+    top: 0,
+    left: 27,
+    bottom: 0,
+    margin: "auto",
+    resizeMode: "center",
+  },
+  scroll_block_all: {
+    flexDirection: "row",
+    overflow: "hidden",
+    paddingVertical: 10,
+    paddingBottom: 50,
+  },
+  scroll_box: {
+    marginRight: 10,
+  },
+  scroll_image: {
+    width: "100%",
+    height: "100%",
+  },
+  header_name: {
+    fontSize: 16,
+    fontWeight: 600,
+  },
+});
