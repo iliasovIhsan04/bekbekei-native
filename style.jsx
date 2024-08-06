@@ -10,6 +10,9 @@ export const styles = StyleSheet.create({
     fontSize: 40,
     color: "red",
   },
+  main: {
+    overflow: "hidden",
+  },
   header_block: {
     width: "100%",
     alignItems: "center",
@@ -129,18 +132,28 @@ export const styles = StyleSheet.create({
   scroll_block_all: {
     flexDirection: "row",
     overflow: "hidden",
-    paddingVertical: 10,
-    paddingBottom: 50,
+    gap: 10,
   },
   scroll_box: {
-    marginRight: 10,
+    width: 320,
+    height: 140,
+    paddingTop: 10,
+    borderRadius: 16,
+    overflow: "hidden",
   },
-  scroll_image: {
+  harry_scroll_box: {
+    width: 260,
+    height: 260,
+    borderRadius: 20,
+    overflow: "hidden",
+    marginTop: 10,
+  },
+  image: {
     width: "100%",
     height: "100%",
   },
-  header_name: {
-    fontSize: 16,
-    fontWeight: 600,
+  harry_buy_block: {
+    marginTop: 40,
+    marginBottom: 100,
   },
 });
