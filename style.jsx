@@ -5,6 +5,7 @@ export const styles = StyleSheet.create({
     width: "90%",
     marginHorizontal: "auto",
     maxWidth: 784,
+    backgroundColor: "transparent",
   },
   texting: {
     fontSize: 40,
@@ -19,7 +20,6 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingTop: 10,
     paddingBottom: 10,
-    backgroundColor: "#f8f8f8",
     flexDirection: "row",
   },
   bonus_box: {
@@ -155,5 +155,25 @@ export const styles = StyleSheet.create({
   harry_buy_block: {
     marginTop: 40,
     marginBottom: 100,
+  },
+  all_promotion_block: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 10,
+    marginBottom: 200,
+  },
+  promotion_item: {
+    width: "100%",
+    height: 260,
+    overflow: "hidden",
+    borderRadius: 16,
+  },
+  img_promotion: {
+    width: "100%",
+    height: "100%",
+  },
+  image_promotion_id: {
+    width: "100%",
+    height: 260,
   },
 });

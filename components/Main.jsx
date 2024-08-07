@@ -9,8 +9,9 @@ import {
 } from "react-native";
 import NewPromotion from "./NewPromotion";
 import HarryBuyTo from "./HarryBuyTo";
+import Header from "./Header";
 
-function Main() {
+const Main = () => {
   return (
     <ScrollView
       contentContainerStyle={{ flexDirection: 1 }}
@@ -18,6 +19,7 @@ function Main() {
       showsHorizontalScrollIndicator={false}
     >
       <View style={styles.main}>
+        <Header />
         <ImageBackground style={styles.bonus_box}>
           <View style={styles.inner_box}>
             <Text style={styles.bonus_cart}>Бонусная {"\n"} карта</Text>
@@ -44,6 +46,6 @@ function Main() {
       </View>
     </ScrollView>
   );
-}
+};
 
 export default Main;

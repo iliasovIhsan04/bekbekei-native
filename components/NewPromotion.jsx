@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, TouchableOpacity, Image, ScrollView } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  Alert,
+} from "react-native";
 import { styles } from "../style";
-import { instance, Main } from "./api/AllRequest";
+import { instance } from "./api/AllRequest";
+import { useNavigation } from "@react-navigation/native";
 
 const NewPromotion = () => {
   const [promotion, setPromotion] = useState([]);
   const [error, setError] = useState(null);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,11 +40,20 @@ const NewPromotion = () => {
     );
   }
 
+  const navigateToRegistration = () => {
+    navigation.navigate("Registration");
+  };
+
   return (
     <View style={styles.promotion_block}>
       <View style={styles.title_box}>
-        <Text style={styles.title_page}>Акции</Text>
-        <TouchableOpacity style={[styles.click_text, styles.back_button]}>
+        <Text style={styles.title_page} onPress={navigateToRegistration}>
+          Акции
+        </Text>
+        <TouchableOpacity
+          style={[styles.click_text, styles.back_button]}
+          onPress={() => navigation.navigate("Promotion")}
+        >
           <Text>Все</Text>
           <Image
             source={require("../assets/image/more-left.svg")}
@@ -49,8 +67,14 @@ const NewPromotion = () => {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        {promotion.map((el, id) => (
-          <TouchableOpacity key={id} style={styles.scroll_box}>
+        {promotion.map((el) => (
+          <TouchableOpacity
+            key={el.id}
+            style={styles.scroll_box}
+            onPress={() =>
+              navigation.navigate("PromotionDetail", { id: el.id })
+            }
+          >
             <Image source={{ uri: el.img }} style={styles.image} />
           </TouchableOpacity>
         ))}
