@@ -5,7 +5,6 @@ export const styles = StyleSheet.create({
     width: "90%",
     marginHorizontal: "auto",
     maxWidth: 784,
-    backgroundColor: "transparent",
   },
   texting: {
     fontSize: 40,
@@ -13,13 +12,13 @@ export const styles = StyleSheet.create({
   },
   main: {
     overflow: "hidden",
+    backgroundColor: "white",
   },
   header_block: {
     width: "100%",
+    height: 45,
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: 10,
-    paddingBottom: 10,
     flexDirection: "row",
   },
   bonus_box: {
@@ -175,5 +174,6 @@ export const styles = StyleSheet.create({
   image_promotion_id: {
     width: "100%",
     height: 260,
+    borderRadius: 16,
   },
 });

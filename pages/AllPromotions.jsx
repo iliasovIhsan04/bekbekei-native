@@ -3,10 +3,12 @@ import { View, Text, Alert, Image, ScrollView } from "react-native";
 import { styles } from "../style";
 import { instance } from "../components/api/AllRequest";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { useNavigation } from "@react-navigation/native";
 
 const AllPromotions = () => {
   const [allPromotions, setAllPromotions] = useState([]);
   const [error, setError] = useState(null);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,7 +34,13 @@ const AllPromotions = () => {
       </View>
       <View style={styles.all_promotion_block}>
         {allPromotions.map((el, index) => (
-          <View key={index} style={styles.promotion_item}>
+          <View
+            key={index}
+            style={styles.promotion_item}
+            onPress={() =>
+              navigation.navigate("PromotionDetail", { id: el.id })
+            }
+          >
             <Image source={{ uri: el.img }} style={styles.img_promotion} />
           </View>
         ))}
