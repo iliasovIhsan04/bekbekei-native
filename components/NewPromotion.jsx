@@ -40,16 +40,10 @@ const NewPromotion = () => {
     );
   }
 
-  const navigateToRegistration = () => {
-    navigation.navigate("Registration");
-  };
-
   return (
     <View style={styles.promotion_block}>
       <View style={styles.title_box}>
-        <Text style={styles.title_page} onPress={navigateToRegistration}>
-          Акции
-        </Text>
+        <Text style={styles.title_page}>Акции</Text>
         <TouchableOpacity
           style={[styles.click_text, styles.back_button]}
           onPress={() => navigation.navigate("Promotion")}

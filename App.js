@@ -5,7 +5,7 @@ import AppNavigation from "./components/Navigation/AppNavigation";
 
 export default function App() {
   return (
-    <View style={styles.container}>
+    <View style={styles.all_container}>
       <AppNavigation />
       <StatusBar style="auto" />
     </View>

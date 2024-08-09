@@ -5,11 +5,14 @@ import AllPromotions from "../../pages/AllPromotions";
 import Main from "../Main";
 import PromotionId from "../../pages/PromotionId";
 import React, { useState } from "react";
+import Catalog from "../../pages/Catalog";
+import QrCod from "../../pages/QrCod";
+import Footer from "../Footer";
+import ProfileScreen from "../../pages/ProfileScreen";
 
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigation() {
-  const [data, setData] = useState(false);
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -17,7 +20,11 @@ export default function AppNavigation() {
         <Stack.Screen name="Registration" component={Registration} />
         <Stack.Screen name="Promotion" component={AllPromotions} />
         <Stack.Screen name="PromotionDetail" component={PromotionId} />
+        <Stack.Screen name="Catalog" component={Catalog} />
+        <Stack.Screen name="Cart" component={QrCod} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
       </Stack.Navigator>
+      <Footer />
     </NavigationContainer>
   );
 }

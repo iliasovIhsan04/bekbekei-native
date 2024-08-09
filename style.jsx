@@ -6,13 +6,15 @@ export const styles = StyleSheet.create({
     marginHorizontal: "auto",
     maxWidth: 784,
   },
+  all_container: {
+    width: "100%",
+  },
   texting: {
     fontSize: 40,
     color: "red",
   },
   main: {
     overflow: "hidden",
-    backgroundColor: "white",
   },
   header_block: {
     width: "100%",
@@ -125,8 +127,6 @@ export const styles = StyleSheet.create({
     top: 0,
     left: 27,
     bottom: 0,
-    margin: "auto",
-    resizeMode: "center",
   },
   scroll_block_all: {
     flexDirection: "row",
@@ -159,7 +159,8 @@ export const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     gap: 10,
-    marginBottom: 200,
+    marginTop: 10,
+    paddingBottom: 100,
   },
   promotion_item: {
     width: "100%",
@@ -170,10 +171,101 @@ export const styles = StyleSheet.create({
   img_promotion: {
     width: "100%",
     height: "100%",
+    objectFit: "cover",
   },
   image_promotion_id: {
     width: "100%",
     height: 260,
     borderRadius: 16,
+    marginTop: 10,
+  },
+  header_all: {
+    width: "100%",
+    height: 60,
+    position: "relative",
+    top: 0,
+    left: 0,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  back_button_right: {
+    width: 30,
+    height: 30,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  more_rigth: {
+    width: 24,
+    height: 24,
+  },
+  header_name: {
+    fontSize: 18,
+    color: "#191919",
+    fontWeight: 600,
+  },
+  prom_text: {
+    fontSize: 18,
+    fontWeight: 500,
+    color: "#191919",
+  },
+  prom_date: {
+    color: "red",
+  },
+  d_flex: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  footer_block: {
+    width: "100%",
+    paddingTop: 10,
+    paddingBottom: 20,
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    backgroundColor: "#FFFFFF",
+    borderTopWidth: 2,
+    borderTopColor: "#E4E4E4",
+  },
+  footer_nav_link: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  footer_text: {
+    fontSize: 11,
+    fontWeight: 500,
+    color: "#AAAAAA",
+  },
+  activeLink: {
+    color: "#F9671C",
+  },
+  activeText: {
+    color: "#F9671C",
+  },
+  cart_position: {
+    width: 45,
+    height: 45,
+    backgroundColor: "#F9671C",
+    borderRadius: "50%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  profile_block: {
+    width: "100%",
+    height: "100vh",
+    backgroundColor: "#F9671C",
+    position: "relative",
+  },
+  profile_box: {
+    width: "100%",
+    minHeight: 600,
+    backgroundColor: "white",
+    borderTopRightRadius: 16,
+    borderTopLeftRadius: 16,
+    position: "absolute",
+    bottom: 0,
   },
 });

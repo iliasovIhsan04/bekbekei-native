@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Text, View, TouchableOpacity, Image, ScrollView } from "react-native";
 import { styles } from "../style";
 import { instance } from "./api/AllRequest";
+import { useNavigation } from "@react-navigation/native";
 
 const HarryBuyTo = () => {
   const [harryBuy, setHarryBuy] = useState([]);
   const [error, setError] = useState(null);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,7 +35,10 @@ const HarryBuyTo = () => {
     <View style={styles.harry_buy_block}>
       <View style={styles.title_box}>
         <Text style={styles.title_page}>Успей купить</Text>
-        <TouchableOpacity style={[styles.click_text, styles.back_button]}>
+        <TouchableOpacity
+          style={[styles.click_text, styles.back_button]}
+          onPress={() => navigation.navigate("Promotion")}
+        >
           <Text>Все</Text>
           <Image
             source={require("../assets/image/more-left.svg")}
@@ -48,7 +53,13 @@ const HarryBuyTo = () => {
         showsHorizontalScrollIndicator={false}
       >
         {harryBuy.map((el, id) => (
-          <TouchableOpacity key={id} style={styles.harry_scroll_box}>
+          <TouchableOpacity
+            key={id}
+            style={styles.harry_scroll_box}
+            onPress={() =>
+              navigation.navigate("PromotionDetail", { id: el.id })
+            }
+          >
             <Image source={{ uri: el.img }} style={styles.image} />
           </TouchableOpacity>
         ))}
