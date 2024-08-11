@@ -383,11 +383,13 @@ export const styles = StyleSheet.create({
   },
   who_block_box: {
     width: "100%",
+    maxHeight: 230,
     flexDirection: "row",
     gap: 10,
   },
   who_box1: {
-    height: 230,
+    width: "49%",
+    height: "100%",
     backgroundColor: "#F3F5F7",
     padding: 10,
     flexDirection: "column",
@@ -399,11 +401,13 @@ export const styles = StyleSheet.create({
     color: "#191919",
   },
   who_box2: {
-    height: 230,
+    maxHeight: 230,
     flexDirection: "column",
     gap: 10,
+    backgroundColor: "red",
   },
   who_box_item: {
     backgroundColor: "#F3F5F7",
+    height: "49%",
   },
 });
