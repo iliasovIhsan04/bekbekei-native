@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { styles } from "../style";
 
@@ -24,6 +24,7 @@ const CustomSwitch = ({ value, onValueChange }) => {
 
 const SettingsPage = () => {
   const [toggle, setToggle] = useState(false);
+  const [autoBrightness, setAutoBrightness] = useState(false);
 
   const toggleNotifications = async () => {
     const newValue = !toggle;
@@ -35,10 +36,32 @@ const SettingsPage = () => {
     }
   };
 
+  const toggleBrightness = async () => {
+    const newValue = !autoBrightness;
+    setAutoBrightness(newValue);
+    if (newValue) {
+      await AsyncStorage.setItem("autoBrightness", "autoValue");
+    } else {
+      await AsyncStorage.removeItem("autoBrightness");
+    }
+  };
+
   return (
-    <View style={styles.toggleBlock}>
-      <Text style={styles.settingsTitle}>Настройки</Text>
-      <CustomSwitch value={toggle} onValueChange={toggleNotifications} />
+    <View>
+      <Text style={styles.block_title}>Настройки</Text>
+      <View style={styles.settings_block_drection}>
+        <View style={styles.toggleBlock}>
+          <Text style={styles.settings_all_title}>Уведомления</Text>
+          <CustomSwitch value={toggle} onValueChange={toggleNotifications} />
+        </View>
+        <View style={styles.toggleBlock}>
+          <Text style={styles.settings_all_title}>Автояркость</Text>
+          <CustomSwitch
+            value={autoBrightness}
+            onValueChange={toggleBrightness}
+          />
+        </View>
+      </View>
     </View>
   );
 };

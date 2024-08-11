@@ -9,6 +9,7 @@ import Catalog from "../../pages/Catalog";
 import QrCod from "../../pages/QrCod";
 import Footer from "../Footer";
 import ProfileScreen from "../../pages/ProfileScreen";
+import WhoLesalePage from "../../pages/WhoLesalePage";
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ export default function AppNavigation() {
         <Stack.Screen name="Catalog" component={Catalog} />
         <Stack.Screen name="Cart" component={QrCod} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="WhoSalesPage" component={WhoLesalePage} />
       </Stack.Navigator>
       <Footer />
     </NavigationContainer>

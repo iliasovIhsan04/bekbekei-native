@@ -321,4 +321,89 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "#FFFFFF",
   },
+  application_person_box: {
+    width: "100%",
+    height: 50,
+    backgroundColor: "#F5F7FA",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  image_addtional: {
+    width: 24,
+    height: 24,
+  },
+  block_title: {
+    fontSize: 18,
+    fontWeight: 600,
+    marginBottom: 12,
+  },
+  bt_social: {
+    marginBottom: 18,
+  },
+  settings_all_title: {
+    fontSize: 16,
+    fontWeight: 600,
+    color: "#151515",
+  },
+  settings_block_drection: {
+    flexDirection: "column",
+    gap: 10,
+  },
+  social_network_box: {
+    width: 64,
+    height: 64,
+    backgroundColor: "#F5F7FA",
+    borderRadius: "50%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  our_store_text: {
+    fontSize: 14,
+    fontWeight: 400,
+    color: "#AAAAAA",
+  },
+  our_store_title: {
+    fontSize: 16,
+    fontWeight: 500,
+    color: "#151515",
+  },
+  who_sales_img: {
+    width: "100%",
+    height: 216,
+  },
+  who_sales_block: {
+    width: "100%",
+    height: "100vh",
+    backgroundColor: "white",
+  },
+  who_block_box: {
+    width: "100%",
+    flexDirection: "row",
+    gap: 10,
+  },
+  who_box1: {
+    height: 230,
+    backgroundColor: "#F3F5F7",
+    padding: 10,
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+  who_text16: {
+    fontSize: 16,
+    fontWeight: 500,
+    color: "#191919",
+  },
+  who_box2: {
+    height: 230,
+    flexDirection: "column",
+    gap: 10,
+  },
+  who_box_item: {
+    backgroundColor: "#F3F5F7",
+  },
 });
