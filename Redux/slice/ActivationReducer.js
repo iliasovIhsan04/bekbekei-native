@@ -8,7 +8,7 @@ const initialState = {
   phone: "",
 };
 
-const ActivationReducer = createSlice({
+const activationReducer = createSlice({
   name: "auth",
   initialState,
   reducers: {
@@ -28,9 +28,8 @@ const ActivationReducer = createSlice({
     },
   },
 });
+
 export const { registerStart, registerSuccess, registerFailure } =
-  ActivationReducer.actions;
+  activationReducer.actions;
 
-export const registerUser = (userData) => async (dispatch) => {};
-
-export default authReducer.reducer;
+export default activationReducer.reducer;

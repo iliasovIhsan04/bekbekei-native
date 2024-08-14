@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import ActivationReducer from "./slice/ActivationReducer";
+import activationReducer from "./slice/activationReducer";
 
 const store = configureStore({
   reducer: {
-    auth: ActivationReducer,
+    auth: activationReducer,
   },
 });
 

@@ -483,4 +483,66 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 30,
   },
+
+  error_text_registr: {
+    fontSize: 16,
+    color: "red",
+    marginTop: 5,
+  },
+  colorAlert: {
+    backgroundColor: "#f8f9fa",
+    borderRadius: 5,
+    marginBottom: 15,
+    padding: 10,
+  },
+  alertContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  crayContainer: {
+    width: 5,
+    height: "100%",
+    borderRadius: 5,
+    marginRight: 10,
+  },
+  crayGreen: {
+    backgroundColor: "green",
+  },
+  crayRed: {
+    backgroundColor: "red",
+  },
+  crayBlue: {
+    backgroundColor: "blue",
+  },
+  crayYellow: {
+    backgroundColor: "yellow",
+  },
+  iconContainer: {
+    marginRight: 10,
+  },
+  textContainer: {
+    flex: 1,
+  },
+  text: {
+    fontSize: 16,
+    color: "#333",
+  },
+  closeButton: {
+    paddingLeft: 10,
+  },
+  iconSuccess: {
+    color: "green",
+  },
+  iconError: {
+    color: "red",
+  },
+  iconInfo: {
+    color: "blue",
+  },
+  iconWarning: {
+    color: "orange",
+  },
+  iconClose: {
+    color: "#333",
+  },
 });
