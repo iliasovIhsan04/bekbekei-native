@@ -6,6 +6,8 @@ import { useNavigation } from "@react-navigation/native";
 
 const RegistrationPage = () => {
   const navigation = useNavigation();
+
+  
   return (
     <View style={styles.registration_block}>
       <View style={styles.container}>
