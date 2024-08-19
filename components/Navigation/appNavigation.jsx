@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AllPromotions from "../../pages/AllPromotions";
 import Main from "../Main";
 import PromotionId from "../../pages/PromotionId";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Catalog from "../../pages/Catalog";
 import QrCod from "../../pages/QrCod";
 import Footer from "../Footer";
@@ -15,56 +15,67 @@ import ForgotPassword from "../../pages/ForgotPassword";
 import ResetPassword from "../../pages/ResetPassword";
 import { Provider } from "react-redux";
 import store from "../../Redux/store";
-import AlertData from "../../assets/UI/Alert/Alert";
+import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
+import { View, Text } from "react-native";
+import ActivationCode from "../../pages/ActivationCode";
 
 const Stack = createNativeStackNavigator();
 
+const toastConfig = {
+  success: (props) => (
+    <BaseToast
+      {...props}
+      style={{
+        borderLeftColor: "green",
+        borderLeftWidth: 5,
+        width: "90%",
+        minHeight: 50,
+        borderRightColor: "green",
+        borderRightWidth: 5,
+      }}
+      contentContainerStyle={{ paddingHorizontal: 14 }}
+      text1Style={{
+        fontSize: 16,
+        fontWeight: "600",
+      }}
+      text2Style={{ fontSize: 14 }}
+    />
+  ),
+  error: (props) => (
+    <ErrorToast
+      {...props}
+      text2NumberOfLines={3}
+      style={{
+        borderLeftColor: "red",
+        borderLeftWidth: 5,
+        width: "90%",
+        minHeight: 50,
+        borderRightColor: "red",
+        borderRightWidth: 5,
+      }}
+      contentContainerStyle={{ paddingHorizontal: 14 }}
+      text1Style={{
+        fontSize: 16,
+        fontWeight: "600",
+      }}
+      text2Style={{ fontSize: 14 }}
+    />
+  ),
+  tomatoToast: ({ text1, props }) => (
+    <View style={{ minHeight: 60, width: "100%", backgroundColor: "tomato" }}>
+      <Text>{text1}</Text>
+      <Text>{props.uuid}</Text>
+    </View>
+  ),
+};
+
 export default function AppNavigation() {
-  const [openAlert, setOpenAlert] = useState({
-    open: false,
-    props: "",
-    text: "",
-  });
-
-  function FuncAlert(text, props) {
-    setTimeout(() => {
-      setOpenAlert({
-        ...openAlert,
-        open: true,
-        text: text,
-        props: props,
-      });
-    }, 200);
-    setOpenAlert({ ...openAlert, open: false });
-  }
-
-  useEffect(() => {
-    if (openAlert.open) {
-      const timeoutId = setTimeout(() => {
-        setOpenAlert({ ...openAlert, open: false });
-      }, 3000);
-
-      return () => {
-        clearTimeout(timeoutId);
-      };
-    }
-  }, [openAlert.open]);
-
-  {
-    openAlert.open && (
-      <AlertData
-        state={openAlert}
-        setState={setOpenAlert}
-        propsData={openAlert.props}
-        text={openAlert.text}
-      />
-    );
-  }
-
   return (
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="ActivationCode" component={ActivationCode} />
+          <Stack.Screen name="Registration" component={RegistrationPage} />
           <Stack.Screen name="Main" component={Main} />
           <Stack.Screen name="Promotion" component={AllPromotions} />
           <Stack.Screen name="PromotionDetail" component={PromotionId} />
@@ -72,16 +83,12 @@ export default function AppNavigation() {
           <Stack.Screen name="Cart" component={QrCod} />
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="WhoSalesPage" component={WhoLesalePage} />
-          <Stack.Screen
-            name="Registration"
-            component={RegistrationPage}
-            Alert={FuncAlert}
-          />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
           <Stack.Screen name="ResetPassword" component={ResetPassword} />
         </Stack.Navigator>
         <Footer />
+        <Toast config={toastConfig} />
       </NavigationContainer>
     </Provider>
   );

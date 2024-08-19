@@ -1,15 +1,14 @@
-import React, { useState } from "react";
-import { styles } from "../style";
+import React, { useState, useEffect, useRef } from "react";
 import {
-  Image,
+  View,
   Text,
   TextInput,
-  View,
   TouchableOpacity,
   ActivityIndicator,
+  Image,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { useDispatch, useSelector } from "react-redux";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
 import {
   registerFailure,
   registerStart,
@@ -17,16 +16,26 @@ import {
 } from "../Redux/slice/activationReducer";
 import { instance } from "../components/api/AllRequest";
 import Icon from "react-native-vector-icons/FontAwesome";
-import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-toast-message";
+import { styles } from "../style";
+import { TextInputMask } from "react-native-masked-text";
 
-const RegistrationPage = ({ Alert }) => {
+const RegistrationPage = () => {
   const navigation = useNavigation();
+  const route = useRoute();
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [visible2, setVisible2] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { message, phone } = useSelector((state) => state.auth);
-  const [error, setError] = useState([]);
+  const [error, setError] = useState({});
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.getElement().focus();
+    }
+  }, []);
 
   const [userData, setUserData] = useState({
     last_name: "",
@@ -36,50 +45,74 @@ const RegistrationPage = ({ Alert }) => {
     password: "",
   });
 
+  useEffect(() => {
+    if (route.params?.welcome) {
+      Toast.show({
+        type: "success",
+        text1: "Welcome",
+        text2: "HiBoddy",
+        visibilityTime: 5000,
+      });
+    }
+  }, [route.params]);
+
   const handleSubmit = async () => {
     setIsLoading(true);
+
     const phoneNumber =
       "+996 " +
       userData.phone.slice(0, 3) +
       userData.phone.slice(3, 6) +
       userData.phone.slice(6);
+
     const userDataWithPhone = {
       ...userData,
       phone: phoneNumber,
     };
+    await AsyncStorage.setItem("phone", "996" + userData.phone);
 
-    if (userDataWithPhone) {
-      dispatch(registerStart());
-      try {
-        const response = await axios.post(
-          instance + "/auth/register",
-          userDataWithPhone
-        );
-
-        // Check if response contains errors
-        if (response.data.errors || response.data.non_field_errors) {
-          setError(response.data.errors || response.data.non_field_errors);
-          Alert(
-            response.data.errors || response.data.non_field_errors,
-            "error"
-          );
-        } else if (response.data.response === true) {
-          Alert(response.data.message, "success");
-          navigation.navigate("Login");
-        } else {
-          Alert("Unexpected response format", "error");
-        }
-
-        dispatch(registerSuccess(response.data));
-      } catch (error) {
-        // Handle network or server errors
-        Alert("An error occurred. Please try again later.", "error");
-        dispatch(registerFailure(error.message));
-      } finally {
-        setIsLoading(false);
+    dispatch(registerStart());
+    try {
+      const response = await instance.post("/auth/register", userDataWithPhone);
+      if (response.data.phone) {
+        Toast.show({
+          type: "error",
+          text1: response.data.phone + "!",
+        });
       }
+      if (response.data.errors || response.data.non_field_errors) {
+        const serverErrors =
+          response.data.errors || response.data.non_field_errors;
+        setError(serverErrors);
+        Toast.show({
+          type: "error",
+          text1: Object.values(serverErrors).join(", ") + "!",
+        });
+      } else if (response.data.response === true) {
+        Toast.show({
+          type: "success",
+          text1: response.data.message,
+        });
+        navigation.navigate("ActivationCode");
+      } else {
+        setError(response.data);
+      }
+      dispatch(registerSuccess(response.data));
+    } catch (error) {
+      console.error(error);
+      Toast.show({
+        type: "error",
+        text1: "Произошла ошибка!",
+        text2: "Пожалуйста, повторите попытку позже.",
+      });
+      dispatch(registerFailure(error.message));
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  const handlePassword = () => setVisible(!visible);
+  const handleConfirmPassword = () => setVisible2(!visible2);
 
   return (
     <View style={styles.registration_block}>
@@ -123,21 +156,33 @@ const RegistrationPage = ({ Alert }) => {
               }
             />
             {error.last_name && (
-              <Text style={styles.error}>{error.last_name}</Text>
+              <Text style={styles.error_text_registr}>
+                {error.last_name[0]}
+              </Text>
             )}
           </View>
           <View style={styles.input_box}>
             <Text style={[styles.label, styles.registr_label]}>Номер</Text>
-            <TextInput
-              style={[styles.input, styles.input_form]}
-              placeholder="+996 (704) 61-68-02"
-              textContentType="telephoneNumber"
-              placeholderTextColor="#AAAAAA"
-              onChangeText={(text) =>
-                setUserData((prev) => ({ ...prev, phone: text }))
-              }
-            />
-            {error.phone && <Text style={styles.error}>{error.phone}</Text>}
+            <View style={styles.phone_input_mask_block}>
+              <Text style={styles.prefix}>+996</Text>
+              <TextInputMask
+                ref={inputRef}
+                type={"custom"}
+                options={{
+                  mask: "(999) 99-99-99",
+                }}
+                value={userData.phone}
+                onChangeText={(text) =>
+                  setUserData((prev) => ({ ...prev, phone: text }))
+                }
+                style={[styles.input, styles.input_form_mask]}
+                placeholder="(700) 10-20-30"
+                keyboardType="phone-pad"
+              />
+            </View>
+            {error.phone && (
+              <Text style={styles.error_text_registr}>{error.phone[0]}</Text>
+            )}
           </View>
           <View style={styles.input_box}>
             <Text style={[styles.label, styles.registr_label]}>Пароль</Text>
@@ -150,11 +195,15 @@ const RegistrationPage = ({ Alert }) => {
                 setUserData((prev) => ({ ...prev, password: text }))
               }
             />
-            <TouchableOpacity onPress={() => setVisible(!visible)}>
-              <Icon name={visible ? "eye" : "eye-slash"} size={20} />
+            <TouchableOpacity onPress={handlePassword}>
+              <Icon
+                name={visible ? "eye" : "eye-slash"}
+                size={20}
+                style={styles.ab_eye}
+              />
             </TouchableOpacity>
             {error.password && (
-              <Text style={styles.error}>{error.password}</Text>
+              <Text style={styles.error_text_registr}>{error.password[0]}</Text>
             )}
           </View>
           <View style={styles.input_box}>
@@ -170,11 +219,17 @@ const RegistrationPage = ({ Alert }) => {
                 setUserData((prev) => ({ ...prev, confirm_password: text }))
               }
             />
-            <TouchableOpacity onPress={() => setVisible2(!visible2)}>
-              <Icon name={visible2 ? "eye" : "eye-slash"} size={20} />
+            <TouchableOpacity onPress={handleConfirmPassword}>
+              <Icon
+                name={visible2 ? "eye" : "eye-slash"}
+                size={20}
+                style={styles.ab_eye}
+              />
             </TouchableOpacity>
             {error.confirm_password && (
-              <Text style={styles.error}>{error.confirm_password}</Text>
+              <Text style={styles.error_text_registr}>
+                {error.confirm_password[0]}
+              </Text>
             )}
           </View>
           <TouchableOpacity

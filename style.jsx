@@ -440,6 +440,7 @@ export const styles = StyleSheet.create({
   input_box: {
     width: "100%",
     flexDirection: "column",
+    position: "relative",
   },
   input: {
     height: 45,
@@ -457,6 +458,17 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderRadius: 10,
+    position: "relative",
+  },
+  input_form_mask: {
+    width: "100%",
+    backgroundColor: "white",
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    borderRadius: 10,
+    borderColor: "transparent",
+    borderWidth: 1,
+    borderBlockColor: "none",
   },
   text_registration: {
     fontSize: 14,
@@ -483,7 +495,6 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 30,
   },
-
   error_text_registr: {
     fontSize: 16,
     color: "red",
@@ -544,5 +555,49 @@ export const styles = StyleSheet.create({
   },
   iconClose: {
     color: "#333",
+  },
+  ab_eye: {
+    position: "absolute",
+    bottom: 12,
+    right: 10,
+    zIndex: 1,
+  },
+  phone_input_mask_block: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    height: 45,
+    backgroundColor: "#ffffff",
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: "transparent",
+  },
+  prefix: {
+    fontSize: 16,
+    fontWeight: 600,
+    color: "#000",
+  },
+  otp_input: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  otp_input_index: {
+    width: "100%",
+    height: 60,
+    borderRadius: 10,
+    textAlign: "center",
+    fontSize: 24,
+    color: "#000",
+    fontWeight: "500",
+    marginHorizontal: 2.5,
+    backgroundColor: "#e9ecef",
+  },
+  repeat_the_code_btn: {
+    fontSize: 14,
+    fontWeight: 400,
+    color: "#F9671C",
+    margin: "auto",
   },
 });
