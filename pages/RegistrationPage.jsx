@@ -30,12 +30,13 @@ const RegistrationPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState({});
   const inputRef = useRef(null);
+  const [isFocused, setIsFocused] = useState(false);
 
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.getElement().focus();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (inputRef.current) {
+  //     inputRef.current.getElement().focus();
+  //   }
+  // }, []);
 
   const [userData, setUserData] = useState({
     last_name: "",
@@ -166,8 +167,9 @@ const RegistrationPage = () => {
             <View style={styles.phone_input_mask_block}>
               <Text style={styles.prefix}>+996</Text>
               <TextInputMask
-                ref={inputRef}
                 type={"custom"}
+                onFocus={() => setIsFocused(false)}
+                maskChar={null}
                 options={{
                   mask: "(999) 99-99-99",
                 }}
@@ -175,7 +177,11 @@ const RegistrationPage = () => {
                 onChangeText={(text) =>
                   setUserData((prev) => ({ ...prev, phone: text }))
                 }
-                style={[styles.input, styles.input_form_mask]}
+                style={[
+                  styles.input,
+                  styles.input_form_mask,
+                  isFocused && styles.inputFocused,
+                ]}
                 placeholder="(700) 10-20-30"
                 keyboardType="phone-pad"
               />

@@ -468,7 +468,9 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: "transparent",
     borderWidth: 1,
-    borderBlockColor: "none",
+  },
+  inputFocused: {
+    borderWidth: 0,
   },
   text_registration: {
     fontSize: 14,
@@ -599,5 +601,10 @@ export const styles = StyleSheet.create({
     fontWeight: 400,
     color: "#F9671C",
     margin: "auto",
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: 600,
+    color: "white",
   },
 });
