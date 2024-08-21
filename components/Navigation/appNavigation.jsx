@@ -18,6 +18,7 @@ import store from "../../Redux/store";
 import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 import { View, Text } from "react-native";
 import ActivationCode from "../../pages/ActivationCode";
+import ForgotActivationCode from "../../pages/ForgotActivationCode";
 
 const Stack = createNativeStackNavigator();
 
@@ -85,6 +86,10 @@ export default function AppNavigation() {
           <Stack.Screen name="WhoSalesPage" component={WhoLesalePage} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+          <Stack.Screen
+            name="ForgotActivationCode"
+            component={ForgotActivationCode}
+          />
           <Stack.Screen name="ResetPassword" component={ResetPassword} />
         </Stack.Navigator>
         <Footer />

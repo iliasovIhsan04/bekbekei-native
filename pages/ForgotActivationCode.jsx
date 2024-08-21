@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { instance } from "../components/api/AllRequest";
 import Toast from "react-native-toast-message";
@@ -12,11 +18,12 @@ import {
 } from "../Redux/slice/activationReducer";
 import CustomOtpInput from "./CustomOtpInput";
 
-const ActivationCode = () => {
+const ForgotActivationCode = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState({});
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,11 +37,6 @@ const ActivationCode = () => {
     }
   }, [route.params]);
 
-  const handleCode = async () => {
-    const phone = await AsyncStorage.getItem("phone");
-    await instance.post("/auth/send-code", { phone });
-  };
-
   const handleSubmit = async () => {
     setLoading(true);
     if (!code) {
@@ -46,46 +48,62 @@ const ActivationCode = () => {
       return;
     }
 
-    try {
+    if (code.length === 6) {
       const phone = await AsyncStorage.getItem("phone");
-      const response = await instance.post("/auth/verify-phone", {
-        phone,
-        code,
+      if (!phone) {
+        Toast.show({
+          type: "error",
+          text1: "Phone number not found!",
+        });
+        setLoading(false);
+        return;
+      }
+      try {
+        const phone = await AsyncStorage.getItem("phone");
+        const response = await instance.post("/auth/reset-password-verify", {
+          phone,
+          code,
+        });
+        dispatch(registerSuccess(response.data));
+        if (response.data.response === true) {
+          Toast.show({
+            type: "success",
+            text1: response.data.message,
+          });
+          navigation.navigate("ResetPassword");
+        }
+        setLoading(false);
+        if (response.data.response === false) {
+          Toast.show({
+            type: "error",
+            text1: response.data.message + "!",
+          });
+        }
+        if (response.data.code) {
+          setError(response.data);
+        }
+        if (response.data.code) {
+          setError(response.data);
+          Toast.show({
+            type: "error",
+            text1: response.data.code + "!",
+          });
+        }
+        if (response.data.token) {
+          await AsyncStorage.setItem("token_block", response.data.token);
+        }
+      } catch (error) {
+        setError(error.response?.data);
+        dispatch(registerFailure(error.message));
+      }
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "Ошибка",
+        text2: "Заполните все поля!",
       });
-      dispatch(registerSuccess(response.data));
-      if (response.data.response === false) {
-        Toast.show({
-          type: "error",
-          text1: response.data.message + "!",
-        });
-      }
-      if (response.data.token) {
-        await AsyncStorage.setItem(
-          "token",
-          JSON.stringify(response.data.token)
-        );
-        await AsyncStorage.setItem("tokens", response.data.token);
-      }
-      if (response.data.response === true) {
-        Toast.show({
-          type: "success",
-          text1: response.data.message,
-        });
-        navigation.navigate("Main");
-      }
-      if (response.data.code) {
-        setError(response.data);
-        Toast.show({
-          type: "error",
-          text1: response.data.code + "!",
-        });
-      }
-    } catch (error) {
-      setError(error.response?.data);
-      dispatch(registerFailure(error.message));
-    } finally {
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   return (
@@ -119,17 +137,15 @@ const ActivationCode = () => {
           onPress={handleSubmit}
           style={[styles.btn_all, styles.who_btn]}
         >
-          Подтвердить
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={handleCode}
-          style={styles.repeat_the_code_btn}
-        >
-          Отправить снова код
+          {loading ? (
+            <ActivityIndicator color="#FFF" />
+          ) : (
+            <Text style={styles.buttonText}>Отправить</Text>
+          )}
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-export default ActivationCode;
+export default ForgotActivationCode;

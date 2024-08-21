@@ -476,6 +476,10 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 400,
   },
+  registration_block_all: {
+    width: "100%",
+    marginBottom: 500,
+  },
   text_login_color: {
     fontSize: 14,
     fontWeight: 400,
