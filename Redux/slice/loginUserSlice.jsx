@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-export const loginUserSlice = createAsyncThunk("user/loginUser");
+export const loginUser = createAsyncThunk("user/loginUser");
 
 const userSlice = createSlice({
   name: "user",

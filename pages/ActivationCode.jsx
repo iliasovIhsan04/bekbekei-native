@@ -40,50 +40,58 @@ const ActivationCode = () => {
     if (!code) {
       Toast.show({
         type: "error",
-        text1: "Введите код подтверждения!",
+        text1: "Ошибка!",
+        text2: "Введите код подтверждения!",
       });
       setLoading(false);
       return;
     }
-
-    try {
-      const phone = await AsyncStorage.getItem("phone");
-      const response = await instance.post("/auth/verify-phone", {
-        phone,
-        code,
+    if (code.length === 6) {
+      try {
+        const phone = await AsyncStorage.getItem("phone");
+        const response = await instance.post("/auth/verify-phone", {
+          phone,
+          code,
+        });
+        dispatch(registerSuccess(response.data));
+        if (response.data.response === false) {
+          Toast.show({
+            type: "error",
+            text1: "Ошибка",
+            text2: response.data.message + "!",
+          });
+        }
+        if (response.data.token) {
+          await AsyncStorage.setItem("tokenActivation", response.data.token);
+        }
+        if (response.data.response === true) {
+          Toast.show({
+            type: "success",
+            text1: "Успешно!",
+            text2: response.data.message,
+          });
+          navigation.navigate("Main");
+        }
+        if (response.data.code) {
+          setError(response.data);
+          Toast.show({
+            type: "error",
+            text1: "Ошибка!",
+            text2: response.data.code + "!",
+          });
+        }
+      } catch (error) {
+        setError(error.response?.data);
+        dispatch(registerFailure(error.message));
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "Ошибка!",
+        text2: "Заполните все поля!",
       });
-      dispatch(registerSuccess(response.data));
-      if (response.data.response === false) {
-        Toast.show({
-          type: "error",
-          text1: response.data.message + "!",
-        });
-      }
-      if (response.data.token) {
-        await AsyncStorage.setItem(
-          "token",
-          JSON.stringify(response.data.token)
-        );
-        await AsyncStorage.setItem("tokens", response.data.token);
-      }
-      if (response.data.response === true) {
-        Toast.show({
-          type: "success",
-          text1: response.data.message,
-        });
-        navigation.navigate("Main");
-      }
-      if (response.data.code) {
-        setError(response.data);
-        Toast.show({
-          type: "error",
-          text1: response.data.code + "!",
-        });
-      }
-    } catch (error) {
-      setError(error.response?.data);
-      dispatch(registerFailure(error.message));
-    } finally {
       setLoading(false);
     }
   };

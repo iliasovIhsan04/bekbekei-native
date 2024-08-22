@@ -53,7 +53,6 @@ const ForgotPassword = () => {
       const formattedPhone = "+996 " + phone;
       await AsyncStorage.setItem("phone", JSON.stringify(formattedPhone));
       dispatch(registerSuccess(response.data));
-
       if (response.data.response === true) {
         navigation.navigate("ForgotActivationCode");
         Toast.show({
@@ -64,13 +63,15 @@ const ForgotPassword = () => {
       } else {
         Toast.show({
           type: "error",
-          text1: response.data.message || "Произошла ошибка",
+          text1: "Ошибка!",
+          text2: response.data.message || "Произошла ошибка",
         });
       }
       if (response.data.phone) {
         setError(response.data);
         Toast.show({
           type: "error",
+          text1: "Ошибка!",
           text1: response.data.phone || "Произошла ошибка",
         });
       }
@@ -78,6 +79,7 @@ const ForgotPassword = () => {
       dispatch(registerFailure(error.message));
       Toast.show({
         type: "error",
+        text1: "Ошибка!",
         text1: error.message || "Произошла непредвиденная ошибка",
       });
     } finally {

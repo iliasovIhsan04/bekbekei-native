@@ -73,7 +73,8 @@ const RegistrationPage = () => {
       if (response.data.phone) {
         Toast.show({
           type: "error",
-          text1: response.data.phone + "!",
+          text1: "Произошла ошибка!",
+          text2: response.data.phone + "!",
         });
       }
       if (response.data.errors || response.data.non_field_errors) {
@@ -87,7 +88,8 @@ const RegistrationPage = () => {
       } else if (response.data.response === true) {
         Toast.show({
           type: "success",
-          text1: response.data.message,
+          text1: "Успешно!",
+          text2: response.data.message,
         });
         navigation.navigate("ActivationCode");
       } else {

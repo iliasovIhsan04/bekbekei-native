@@ -68,7 +68,8 @@ const ForgotActivationCode = () => {
         if (response.data.response === true) {
           Toast.show({
             type: "success",
-            text1: response.data.message,
+            text1: "Успешно!",
+            text2: response.data.message,
           });
           navigation.navigate("ResetPassword");
         }
@@ -76,7 +77,8 @@ const ForgotActivationCode = () => {
         if (response.data.response === false) {
           Toast.show({
             type: "error",
-            text1: response.data.message + "!",
+            text1: "Ошибка!",
+            text2: response.data.message + "!",
           });
         }
         if (response.data.code) {
@@ -86,7 +88,8 @@ const ForgotActivationCode = () => {
           setError(response.data);
           Toast.show({
             type: "error",
-            text1: response.data.code + "!",
+            text1: "Ошибка!",
+            text2: response.data.code + "!",
           });
         }
         if (response.data.token) {
@@ -99,7 +102,7 @@ const ForgotActivationCode = () => {
     } else {
       Toast.show({
         type: "error",
-        text1: "Ошибка",
+        text1: "Ошибка!",
         text2: "Заполните все поля!",
       });
     }

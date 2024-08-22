@@ -1,14 +1,94 @@
-import React, { useState } from "react";
-import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { styles } from "../style";
 import { useNavigation } from "@react-navigation/native";
+import Icon from "react-native-vector-icons/FontAwesome";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
+import {
+  registerFailure,
+  registerStart,
+  registerSuccess,
+} from "../Redux/slice/activationReducer";
+import Toast from "react-native-toast-message";
+import { instance } from "../components/api/AllRequest";
 
 const ResetPassword = () => {
   const navigation = useNavigation();
   const [visible, setVisible] = useState(false);
   const [visible2, setVisible2] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState({});
+  const [local, setLocal] = useState(null);
+  const dispatch = useDispatch();
+
+  const handlePassword = () => setVisible(!visible);
+  const handleConfirmPassword = () => setVisible2(!visible2);
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      const token = await AsyncStorage.getItem("token_block");
+      setLocal(token);
+    };
+    fetchToken();
+  }, []);
+
+  const headers = {
+    Authorization: `Token ${local}`,
+  };
+
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    const newPasswordCredential = {
+      password,
+      confirm_password: confirmPassword,
+    };
+    dispatch(registerStart());
+    try {
+      const response = await instance.post(
+        "/auth/change-password",
+        newPasswordCredential,
+        { headers }
+      );
+
+      dispatch(registerSuccess(response.data));
+      if (response.data.response === true) {
+        Toast.show({
+          type: "success",
+          text1: "Успешно!",
+          text2: response.data.message,
+        });
+        navigation.navigate("Login");
+      }
+      if (response.data.password || response.data.confirm_password) {
+        setError(response.data);
+      }
+      if (response.data.response === false) {
+        Toast.show({
+          type: "error",
+          text1: "Ошибка!",
+          text2: response.data.message + "!",
+        });
+      }
+    } catch (error) {
+      dispatch(registerFailure(error.message));
+      Toast.show({
+        type: "error",
+        text1: "Ошибка!",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -34,9 +114,8 @@ const ResetPassword = () => {
             placeholder="Введите пароль"
             placeholderTextColor="#AAAAAA"
             secureTextEntry={!visible}
-            onChangeText={(text) =>
-              setUserData((prev) => ({ ...prev, password: text }))
-            }
+            value={password}
+            onChangeText={setPassword}
           />
           <TouchableOpacity onPress={handlePassword}>
             <Icon
@@ -58,9 +137,8 @@ const ResetPassword = () => {
             placeholder="Повторите пароль"
             placeholderTextColor="#AAAAAA"
             secureTextEntry={!visible2}
-            onChangeText={(text) =>
-              setUserData((prev) => ({ ...prev, confirm_password: text }))
-            }
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
           />
           <TouchableOpacity onPress={handleConfirmPassword}>
             <Icon
@@ -76,8 +154,16 @@ const ResetPassword = () => {
           )}
         </View>
 
-        <TouchableOpacity style={[styles.btn_all, styles.who_btn]}>
-          Сбросить пароль
+        <TouchableOpacity
+          style={[styles.btn_all, styles.who_btn]}
+          onPress={handleSubmit}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <ActivityIndicator color="#FFF" />
+          ) : (
+            <Text style={styles.buttonText}>Сбросить пароль</Text>
+          )}
         </TouchableOpacity>
       </View>
     </View>

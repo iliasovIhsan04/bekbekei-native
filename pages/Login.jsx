@@ -19,7 +19,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TextInputMask } from "react-native-masked-text";
 import { useDispatch } from "react-redux";
 import { instance } from "../components/api/AllRequest";
-import loginUserSlice from "../Redux/slice/loginUserSlice";
+import { loginUser } from "../Redux/slice/loginUserSlice";
 
 const Login = () => {
   const route = useRoute();
@@ -66,7 +66,8 @@ const Login = () => {
       } else if (response.data.response === false) {
         Toast.show({
           type: "error",
-          text1: response.data.message || "Произошла ошибка",
+          text1: "Ошибка!",
+          text2: response.data.message || "Произошла ошибка",
         });
       }
       if (response.data) {
@@ -79,34 +80,30 @@ const Login = () => {
       if (response.data.phone) {
         Toast.show({
           type: "error",
-          text1: response.data.phone || "Произошла ошибка",
+          text1: "Ошибка!",
+          text2: response.data.phone || "Произошла ошибка",
         });
       }
       if (response.data.token) {
-        await AsyncStorage.setItem(
-          "token",
-          JSON.stringify(response.data.token)
-        );
-        await AsyncStorage.setItem("tokens", response.data.token);
+        await AsyncStorage.setItem("tokenActivation", response.data.token);
       }
       setIsLoading(false);
     } catch (error) {
       dispatch(registerFailure(error.message));
       Toast.show({
         type: "error",
-        text1: error.message + "!" || "Произошла непредвиденная ошибка",
+        text1: "Ошибка!",
+        text2: error.message + "!" || "Произошла непредвиденная ошибка",
       });
       setIsLoading(false);
     }
-    dispatch(loginUserSlice({ phone: phoneNumber, password })).then(
-      (result) => {
-        if (result.payload) {
-          setPhone("");
-          setPassword("");
-          navigation.navigate("Main");
-        }
+    dispatch(loginUser({ phone: phoneNumber, password })).then((result) => {
+      if (result.payload) {
+        setPhone("");
+        setPassword("");
+        navigation.navigate("Main");
       }
-    );
+    });
   };
 
   const handlePassword = () => setVisible(!visible);
