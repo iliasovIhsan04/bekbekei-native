@@ -186,6 +186,7 @@ const RegistrationPage = () => {
                     styles.input,
                     styles.input_form_mask,
                     isFocused && styles.inputFocused,
+                    { outline: "none" },
                   ]}
                   placeholder="(700) 10-20-30"
                   keyboardType="phone-pad"

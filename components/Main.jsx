@@ -1,17 +1,46 @@
-import { styles } from "../style";
+import { useNavigation } from "@react-navigation/native";
+import React, { useEffect } from "react";
 import {
-  ImageBackground,
-  View,
-  Text,
   Image,
-  TouchableOpacity,
+  ImageBackground,
   ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import NewPromotion from "./NewPromotion";
+import { useDispatch, useSelector } from "react-redux";
+import { styles } from "../style";
 import HarryBuyTo from "./HarryBuyTo";
 import Header from "./Header";
+import NewPromotion from "./NewPromotion";
+import { fetchUserInfo } from "../Redux/reducer/UserInfo";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Main = () => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  const getToken = async () => {
+    try {
+      const token = await AsyncStorage.getItem("tokenActivation");
+      return token ? token : false;
+    } catch (error) {
+      console.error("Error retrieving token:", error);
+      return false;
+    }
+  };
+
+  const token = getToken();
+
+  useEffect(() => {
+    dispatch(fetchUserInfo());
+  }, [dispatch]);
+
+  const data = useSelector((state) => state.users);
+  const users = data?.user;
+
+  console.log(data.user.qrimg);
+
   return (
     <ScrollView
       contentContainerStyle={{ flexDirection: 1 }}
@@ -20,18 +49,22 @@ const Main = () => {
     >
       <View style={styles.container}>
         <View style={styles.main}>
-          <Header />
-          <ImageBackground style={styles.bonus_box}>
-            <View style={styles.inner_box}>
-              <Text style={styles.bonus_cart}>Бонусная {"\n"} карта</Text>
-              <Text style={styles.bonus_score}>
-                0<Text style={styles.bonus}>баллов </Text>
-              </Text>
-            </View>
-            <View style={styles.bonus_img}>
-              <Image source={require("../assets/image/qr-cod.svg")} />
-            </View>
-          </ImageBackground>
+          <Header users={users} />
+          {token && (
+            <ImageBackground style={styles.bonus_box}>
+              <View style={styles.inner_box}>
+                <Text style={styles.bonus_cart}>Бонусная {"\n"} карта</Text>
+                <Text style={styles.bonus_score}>
+                  {data.user.bonus}
+                  <Text style={styles.bonus}>баллов </Text>
+                </Text>
+              </View>
+              <Image
+                source={{ uri: data.user.qrimg }}
+                style={styles.image_bonus}
+              />
+            </ImageBackground>
+          )}
           <View style={styles.scanner_block}>
             <TouchableOpacity style={styles.scanner}>
               <Image source={require("../assets/image/scanning.svg")} />

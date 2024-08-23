@@ -57,14 +57,11 @@ export const styles = StyleSheet.create({
     fontWeight: "600",
     marginLeft: 5,
   },
-  bonus_img: {
+  image_bonus: {
+    width: 180,
     height: "100%",
     borderRadius: 10,
-    image: {
-      maxWidth: 180,
-      height: "100%",
-      borderRadius: 10,
-    },
+    resizeMode: "cover",
   },
   scanner_block: {
     flexDirection: "row",
