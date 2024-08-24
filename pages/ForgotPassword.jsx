@@ -87,6 +87,7 @@ const ForgotPassword = () => {
     }
   };
 
+  
   return (
     <View style={styles.forgot_password}>
       <View style={styles.container}>
@@ -110,7 +111,7 @@ const ForgotPassword = () => {
           <View style={styles.input_box}>
             <Text style={[styles.label, styles.registr_label]}>Номер</Text>
             <View style={styles.phone_input_mask_block}>
-              <Text style={styles.prefix}>+996</Text>
+              <Text style={styles.prefix}>+996</Text>ч
               <TextInputMask
                 type={"custom"}
                 options={{ mask: "(999) 99-99-99" }}
