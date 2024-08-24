@@ -58,7 +58,7 @@ export const styles = StyleSheet.create({
     marginLeft: 5,
   },
   image_bonus: {
-    width: 180,
+    width: 150,
     height: "100%",
     borderRadius: 10,
     resizeMode: "cover",
@@ -607,5 +607,31 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 600,
     color: "white",
+  },
+  or_cod_box: {
+    width: "100%",
+    borderRadius: 20,
+    minHeight: 300,
+    shadowColor: "rgba(0, 0, 0, 0.08)",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 5.25,
+  },
+  gr_cod_img: {
+    width: "100%",
+    height: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  your_card_text: {
+    fontSize: 16,
+    fontWeight: 500,
+    textAlign: "center",
+    flexDirection: "column",
+  },
+  gr_cod_bonus_id: {
+    fontSize: 16,
+    color: "#F9671C",
   },
 });

@@ -89,7 +89,6 @@ export default function AppNavigation() {
 
     fetchToken();
   }, []);
-
   return (
     <Provider store={store}>
       <NavigationContainer>
@@ -103,7 +102,6 @@ export default function AppNavigation() {
             component={ForgotActivationCode}
           />
           <Stack.Screen name="ResetPassword" component={ResetPassword} />
-
           <Stack.Screen name="Main" component={Main} />
           <Stack.Screen name="Promotion" component={AllPromotions} />
           <Stack.Screen name="PromotionDetail" component={PromotionId} />

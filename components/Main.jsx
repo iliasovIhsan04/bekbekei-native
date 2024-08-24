@@ -17,9 +17,8 @@ import { fetchUserInfo } from "../Redux/reducer/UserInfo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Main = () => {
-  const dispatch = useDispatch();
   const navigation = useNavigation();
-
+  const dispatch = useDispatch();
   const getToken = async () => {
     try {
       const token = await AsyncStorage.getItem("tokenActivation");
@@ -39,8 +38,6 @@ const Main = () => {
   const data = useSelector((state) => state.users);
   const users = data?.user;
 
-  console.log(data.user.qrimg);
-
   return (
     <ScrollView
       contentContainerStyle={{ flexDirection: 1 }}
@@ -51,19 +48,21 @@ const Main = () => {
         <View style={styles.main}>
           <Header users={users} />
           {token && (
-            <ImageBackground style={styles.bonus_box}>
-              <View style={styles.inner_box}>
-                <Text style={styles.bonus_cart}>Бонусная {"\n"} карта</Text>
-                <Text style={styles.bonus_score}>
-                  {data.user.bonus}
-                  <Text style={styles.bonus}>баллов </Text>
-                </Text>
-              </View>
-              <Image
-                source={{ uri: data.user.qrimg }}
-                style={styles.image_bonus}
-              />
-            </ImageBackground>
+            <TouchableOpacity onPress={() => navigation.navigate("Cart")}>
+              <ImageBackground style={styles.bonus_box}>
+                <View style={styles.inner_box}>
+                  <Text style={styles.bonus_cart}>Бонусная {"\n"} карта</Text>
+                  <Text style={styles.bonus_score}>
+                    {data.user.bonus}
+                    <Text style={styles.bonus}>баллов </Text>
+                  </Text>
+                </View>
+                <Image
+                  source={{ uri: data.user.qrimg }}
+                  style={styles.image_bonus}
+                />
+              </ImageBackground>
+            </TouchableOpacity>
           )}
           <View style={styles.scanner_block}>
             <TouchableOpacity style={styles.scanner}>
