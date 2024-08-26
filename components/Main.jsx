@@ -15,6 +15,7 @@ import Header from "./Header";
 import NewPromotion from "./NewPromotion";
 import { fetchUserInfo } from "../Redux/reducer/UserInfo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Footer from "./Footer";
 
 const Main = () => {
   const navigation = useNavigation();

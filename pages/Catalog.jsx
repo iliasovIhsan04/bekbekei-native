@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ProducRedux } from "../Redux/reducer/ProductRedux";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import Footer from "../components/Footer";
 
 const Catalog = () => {
   const dispatch = useDispatch();
@@ -83,6 +84,9 @@ const Catalog = () => {
                     { backgroundColor: el.color },
                   ]}
                   key={el.id}
+                  onPress={() =>
+                    navigation.navigate("CatalogDetail", { cat: el.id })
+                  }
                 >
                   <Text style={styles.shop_name} numberOfLines={2}>
                     {el.name}

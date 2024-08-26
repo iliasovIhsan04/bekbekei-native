@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Provider } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
+import { View, ActivityIndicator } from "react-native";
+
 import AllPromotions from "../../pages/AllPromotions";
 import Main from "../Main";
 import PromotionId from "../../pages/PromotionId";
@@ -13,15 +18,12 @@ import RegistrationPage from "../../pages/RegistrationPage";
 import Login from "../../pages/Login";
 import ForgotPassword from "../../pages/ForgotPassword";
 import ResetPassword from "../../pages/ResetPassword";
-import { Provider } from "react-redux";
-import store from "../../Redux/store";
-import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
-import { View, Text, ActivityIndicator } from "react-native";
 import ActivationCode from "../../pages/ActivationCode";
 import ForgotActivationCode from "../../pages/ForgotActivationCode";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import CatalogDetail from "../../pages/CatalogDetail";
+import BasketProduct from "../../pages/BasketProduct";
 
-const Stack = createNativeStackNavigator();
+import store from "../../Redux/store";
 
 const toastConfig = {
   success: (props) => (
@@ -63,17 +65,14 @@ const toastConfig = {
       text2Style={{ fontSize: 14 }}
     />
   ),
-  tomatoToast: ({ text1, props }) => (
-    <View style={{ minHeight: 60, width: "100%", backgroundColor: "tomato" }}>
-      <Text>{text1}</Text>
-      <Text>{props.uuid}</Text>
-    </View>
-  ),
 };
+
+const Stack = createNativeStackNavigator();
 
 export default function AppNavigation() {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showFooter, setShowFooter] = useState(true);
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -81,7 +80,7 @@ export default function AppNavigation() {
         const tokenValue = await AsyncStorage.getItem("tokenActivation");
         setToken(tokenValue);
       } catch (error) {
-        console.error("Failed to fetch token:", error);
+        console.error("Ошибка при получении токена:", error);
       } finally {
         setLoading(false);
       }
@@ -89,11 +88,37 @@ export default function AppNavigation() {
 
     fetchToken();
   }, []);
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
   return (
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Registration" component={RegistrationPage} />
+          <Stack.Screen name="Main" component={Main} />
+          <Stack.Screen name="Promotion" component={AllPromotions} />
+          <Stack.Screen name="PromotionDetail" component={PromotionId} />
+          <Stack.Screen name="Catalog" component={Catalog} />
+          <Stack.Screen name="CatalogDetail">
+            {(props) => (
+              <CatalogDetail {...props} setShowFooter={setShowFooter} />
+            )}
+          </Stack.Screen>
+          <Stack.Screen name="Basket">
+            {(props) => (
+              <BasketProduct {...props} setShowFooter={setShowFooter} />
+            )}
+          </Stack.Screen>
+          <Stack.Screen name="Cart" component={QrCod} />
+          <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen name="WhoSalesPage" component={WhoLesalePage} />
           <Stack.Screen name="ActivationCode" component={ActivationCode} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
@@ -102,15 +127,8 @@ export default function AppNavigation() {
             component={ForgotActivationCode}
           />
           <Stack.Screen name="ResetPassword" component={ResetPassword} />
-          <Stack.Screen name="Main" component={Main} />
-          <Stack.Screen name="Promotion" component={AllPromotions} />
-          <Stack.Screen name="PromotionDetail" component={PromotionId} />
-          <Stack.Screen name="Catalog" component={Catalog} />
-          <Stack.Screen name="Cart" component={QrCod} />
-          <Stack.Screen name="Profile" component={ProfileScreen} />
-          <Stack.Screen name="WhoSalesPage" component={WhoLesalePage} />
         </Stack.Navigator>
-        <Footer />
+        {showFooter && <Footer />}
         <Toast config={toastConfig} />
       </NavigationContainer>
     </Provider>

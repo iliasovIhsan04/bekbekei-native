@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { fetchUserInfo } from "../Redux/reducer/UserInfo";
+import Footer from "../components/Footer";
 
 const QrCod = () => {
   const navigation = useNavigation();
@@ -52,6 +53,7 @@ const QrCod = () => {
           />
         </View>
       </View>
+      <Footer />
     </View>
   );
 };
