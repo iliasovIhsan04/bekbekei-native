@@ -20,7 +20,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
 import { styles } from "../style";
-import { TextInputMask } from "react-native-masked-text";
+import { MaskedTextInput } from "react-native-mask-text";
 
 const RegistrationPage = () => {
   const navigation = useNavigation();
@@ -171,13 +171,11 @@ const RegistrationPage = () => {
               <Text style={[styles.label, styles.registr_label]}>Номер</Text>
               <View style={styles.phone_input_mask_block}>
                 <Text style={styles.prefix}>+996</Text>
-                <TextInputMask
+                <MaskedTextInput
                   type={"custom"}
                   onFocus={() => setIsFocused(false)}
                   maskChar={null}
-                  options={{
-                    mask: "(999) 99-99-99",
-                  }}
+                  mask="(999) 99-99-99"
                   value={userData.phone}
                   onChangeText={(text) =>
                     setUserData((prev) => ({ ...prev, phone: text }))

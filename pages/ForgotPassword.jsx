@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import { styles } from "../style";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { TextInputMask } from "react-native-masked-text";
 import {
   registerFailure,
   registerSuccess,
@@ -17,6 +16,7 @@ import { instance } from "../components/api/AllRequest";
 import Toast from "react-native-toast-message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from "react-redux";
+import { MaskedTextInput } from "react-native-mask-text";
 
 const ForgotPassword = () => {
   const navigation = useNavigation();
@@ -87,7 +87,6 @@ const ForgotPassword = () => {
     }
   };
 
-  
   return (
     <View style={styles.forgot_password}>
       <View style={styles.container}>
@@ -112,12 +111,15 @@ const ForgotPassword = () => {
             <Text style={[styles.label, styles.registr_label]}>Номер</Text>
             <View style={styles.phone_input_mask_block}>
               <Text style={styles.prefix}>+996</Text>ч
-              <TextInputMask
-                type={"custom"}
-                options={{ mask: "(999) 99-99-99" }}
+              <MaskedTextInput
+                mask="(999) 99-99-99"
                 value={phone}
                 onChangeText={setPhone}
-                style={[styles.input, styles.input_form_mask]}
+                style={[
+                  styles.input,
+                  styles.input_form_mask,
+                  { outline: "none" },
+                ]}
                 placeholder="(700) 10-20-30"
                 keyboardType="phone-pad"
               />
